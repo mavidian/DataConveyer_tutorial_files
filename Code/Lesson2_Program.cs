@@ -14,7 +14,7 @@ namespace DataConveyer_tutorial
          //Configure Data Conveyer process:
          var config = new OrchestratorConfig()
          {
-            InputDataKind = KindOfTextData.CSV,
+            InputDataKind = KindOfTextData.Delimited,
             InputFileName = "input.csv",
             HeadersInFirstInputRow = true,
             AllowTransformToAlterFields = true,
