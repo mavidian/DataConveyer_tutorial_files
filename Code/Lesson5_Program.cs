@@ -24,7 +24,7 @@ namespace DataConveyer_tutorial
             ReportProgress = true,
             ProgressInterval = 1,
             ProgressChangedHandler = (s, e) => { if (e.Phase == Phase.Output) Console.Write($"\rProcessed {e.RecCnt.ToString()} records so far..."); },
-            InputDataKind = KindOfTextData.CSV,
+            InputDataKind = KindOfTextData.Delimited,
             InputFileName = "input.csv",
             HeadersInFirstInputRow = true,
             AllowTransformToAlterFields = true,
