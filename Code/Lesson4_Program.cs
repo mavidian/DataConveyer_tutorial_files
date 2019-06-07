@@ -38,8 +38,8 @@ namespace DataConveyer_tutorial
             Thread.Sleep(1000);
             orchtr.CancelExecution();
 
-            //Our execution task is running, let's start another task that will cancel it when a key is pressed before execution task completes
-            //Task.Run(() => { while (!Console.KeyAvailable) { } Console.ReadKey(true); orchtr.CancelExecution(); });
+            //Our execution task is running, let's start another task that will cancel it when a key is pressed
+            //Task.Run(async () => { while (!Console.KeyAvailable) await Task.Delay(50); Console.ReadKey(true); orchtr.CancelExecution(); });
 
             result = execTask.Result;
          }

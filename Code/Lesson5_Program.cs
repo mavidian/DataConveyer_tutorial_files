@@ -1,5 +1,6 @@
 using Mavidian.DataConveyer.Common;
 using Mavidian.DataConveyer.Entities.KeyVal;
+using Mavidian.DataConveyer.Logging;
 using Mavidian.DataConveyer.Orchestrators;
 using System;
 using System.Threading;
@@ -14,16 +15,13 @@ namespace DataConveyer_tutorial
          Console.WriteLine("Data Conveyer process is starting");
 
          //Configure Data Conveyer process:
-         var config = new OrchestratorConfig()
+         var config = new OrchestratorConfig(LoggerCreator.CreateLogger(LoggerType.LogFile, "Sample process from the tutorial", LogEntrySeverity.Information))
          {
-            //Not available in free edition of Data Conveyer:
-            //LoggerType = Mavidian.DataConveyer.Logging.LoggerType.LogFile,
-            //LoggingThreshold = Mavidian.DataConveyer.Logging.LogEntrySeverity.Information,
-            IntakeRecordLimit = 180,
-            TimeLimit = TimeSpan.FromSeconds(1.5),
             ReportProgress = true,
             ProgressInterval = 1,
             ProgressChangedHandler = (s, e) => { if (e.Phase == Phase.Output) Console.Write($"\rProcessed {e.RecCnt.ToString()} records so far..."); },
+            IntakeRecordLimit = 180,
+            TimeLimit = TimeSpan.FromSeconds(1.5),
             InputDataKind = KindOfTextData.Delimited,
             InputFileName = "input.csv",
             HeadersInFirstInputRow = true,
@@ -37,13 +35,14 @@ namespace DataConveyer_tutorial
          ProcessResult result;
          using (var orchtr = OrchestratorCreator.GetEtlOrchestrator(config))
          {
-            var execTask = orchtr.ExecuteAsync();  //asynchronous execution
+            var execTask = orchtr.ExecuteAsync(); //asynchronous execution
 
-            //Our execution task is running, let's start another task that will cancel it when a key is pressed before execution task completes
-            Task.Run(() => { while (!Console.KeyAvailable) { } Console.ReadKey(true); orchtr.CancelExecution(); });
+            //Our execution task is running, let's start another task that will cancel it when a key is pressed
+            Task.Run(async () => { while (!Console.KeyAvailable) await Task.Delay(50); Console.ReadKey(true); orchtr.CancelExecution(); });
 
             result = execTask.Result;
          }
+
          Console.WriteLine(" done!");
 
          //Evaluate completion status:
