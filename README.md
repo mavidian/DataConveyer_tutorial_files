@@ -1,7 +1,7 @@
 # DataConveyer tutorial files
 
 
-The files contained in this repository are intended for use while stepping through the [Data Conveyer™ Tutorial](http://www.mavidian.com/dataconveyer-tutorial.html).
+The files contained in this repository are intended for use while stepping through the [Data Conveyer™ Tutorial](http://www.mavidian.com/dataconveyer/tutorial/).
 
 ## Contents
 
